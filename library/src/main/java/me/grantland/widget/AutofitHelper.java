@@ -16,6 +16,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -95,7 +96,11 @@ public class AutofitHelper {
             return;
         }
 
-        int targetWidth = view.getWidth() - view.getPaddingLeft() - view.getPaddingRight();
+        View parent = (View) view.getParent();
+        int wholeWidth = parent != null
+                && view.getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT
+                ? parent.getWidth() : view.getWidth();
+        int targetWidth = wholeWidth - view.getCompoundPaddingLeft() - view.getCompoundPaddingRight();
         if (targetWidth <= 0) {
             return;
         }
